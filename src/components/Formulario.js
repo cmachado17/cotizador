@@ -7,7 +7,7 @@ import {
   definirPlan,
 } from "./helpers";
 
-const Formulario = () => {
+const Formulario = ({setResultado}) => {
   const datosIniciales = { marca: "", año: "", origen: "", plan: "" };
 
   const [cotizacion, setCotizacion] = useState({ ...datosIniciales });
@@ -17,8 +17,12 @@ const Formulario = () => {
   //obtener datos del formulario
   const cotizar = (e) => {
     e.preventDefault();
-    const { name, value } = e.target;
-    setCotizacion({ ...cotizacion, [name]: value });
+    try {
+      const { name, value } = e.target;
+      setCotizacion({ ...cotizacion, [name]: value });
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const realizarCotizacion = (e) => {
@@ -37,9 +41,11 @@ const Formulario = () => {
       resultado = resultado * coeficienteOrigen;
       resultado = resultado * coeficientePlan;
 
+      setResultado(resultado);
       setCotizacion(datosIniciales);
-    } catch (e) {
-      alert(e);
+
+    } catch (error) {
+      alert(error);
     }
   };
 

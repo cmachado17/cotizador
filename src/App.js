@@ -1,13 +1,10 @@
 import "./App.css";
-import Formulario from "./components/Formulario";
+import Home from "./components/Home";
 
 function App() {
   return (
     <div className="App">
-      <div className="container my-5">
-        <h1>Cotizador de seguros</h1>
-        <Formulario />
-      </div>
+      <Home />
     </div>
   );
 }
