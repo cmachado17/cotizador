@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import {
+  diferenciaYear,
+  agregadoMarca,
+  definirOrigen,
+  definirPlan,
+} from "./helpers";
 
 const Formulario = () => {
   const datosIniciales = { marca: "", año: "", origen: "", plan: "" };
 
   const [cotizacion, setCotizacion] = useState({ ...datosIniciales });
 
-  const {marca, año, origen, plan} = cotizacion;
+  const { marca, año, origen, plan } = cotizacion;
 
   //obtener datos del formulario
   const cotizar = (e) => {
@@ -16,10 +22,26 @@ const Formulario = () => {
   };
 
   const realizarCotizacion = (e) => {
-      e.preventDefault();
+    e.preventDefault();
+    try {
+      let resultado = 2000;
+
+      const diferencia = diferenciaYear(año);
+      const valorMarca = agregadoMarca(marca);
+      const coeficienteOrigen = definirOrigen(origen);
+      const coeficientePlan = definirPlan(origen);
+
+      //por cada año de antiguedad se suma un 5% al valor
+      resultado += (diferencia * 5 * resultado) / 100;
+      resultado = resultado * valorMarca;
+      resultado = resultado * coeficienteOrigen;
+      resultado = resultado * coeficientePlan;
 
       setCotizacion(datosIniciales);
-  }
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   //styles components
   const Campo = styled.div`
@@ -37,7 +59,9 @@ const Formulario = () => {
       <Campo className="mb-3">
         <Label>Marca</Label>
         <select name="marca" value={marca} onChange={cotizar}>
-        <option value="" defaultValue>Seleccione una marca</option>
+          <option value="" defaultValue>
+            Seleccione una marca
+          </option>
           <option value="Ford">Ford</option>
           <option value="Chevrolet">Chevrolet</option>
           <option value="Fiat">Fiat</option>
@@ -47,7 +71,9 @@ const Formulario = () => {
       <Campo className="mb-3">
         <Label>Año</Label>
         <select name="año" value={año} onChange={cotizar}>
-        <option value="" defaultValue>Seleccione un año</option>
+          <option value="" defaultValue>
+            Seleccione un año
+          </option>
           <option value="2021">2021</option>
           <option value="2020">2020</option>
           <option value="2019">2019</option>
@@ -60,7 +86,7 @@ const Formulario = () => {
           type="radio"
           name="origen"
           value="Americano"
-          checked ={origen === "Americano"}
+          checked={origen === "Americano"}
           onChange={cotizar}
         />
         Americano
@@ -68,25 +94,36 @@ const Formulario = () => {
           type="radio"
           name="origen"
           value="Europeo"
-          checked ={origen === "Europeo"}
+          checked={origen === "Europeo"}
           onChange={cotizar}
         />
         Europeo
       </Campo>
       <Campo className="mb-3">
         <Label>Plan</Label>
-        <InputRadio type="radio" name="plan" value="Full" checked ={plan === "Full"} onChange={cotizar} />
+        <InputRadio
+          type="radio"
+          name="plan"
+          value="Full"
+          checked={plan === "Full"}
+          onChange={cotizar}
+        />
         Full
         <InputRadio
           type="radio"
           name="plan"
           value="Economico"
-          checked = {plan === "Economico"}
+          checked={plan === "Economico"}
           onChange={cotizar}
         />
         Economico
       </Campo>
-      <button className="btn btn-block btn-success" onClick={realizarCotizacion}>Enviar</button>
+      <button
+        className="btn btn-block btn-success"
+        onClick={realizarCotizacion}
+      >
+        Enviar
+      </button>
     </form>
   );
 };
