@@ -7,7 +7,7 @@ import {
   definirPlan,
 } from "./helpers";
 
-const Formulario = ({setResultado}) => {
+const Formulario = ({ setResultado, setCargando }) => {
   const datosIniciales = { marca: "", año: "", origen: "", plan: "" };
 
   const [cotizacion, setCotizacion] = useState({ ...datosIniciales });
@@ -27,6 +27,8 @@ const Formulario = ({setResultado}) => {
 
   const realizarCotizacion = (e) => {
     e.preventDefault();
+    setCargando(true);
+    setResultado("");
     try {
       let resultado = 2000;
 
@@ -41,9 +43,12 @@ const Formulario = ({setResultado}) => {
       resultado = resultado * coeficienteOrigen;
       resultado = resultado * coeficientePlan;
 
-      setResultado(resultado);
-      setCotizacion(datosIniciales);
+      setTimeout(() => {
+        setCargando(false);
+        setResultado(resultado);
+      }, 2000);
 
+      setCotizacion(datosIniciales);
     } catch (error) {
       alert(error);
     }

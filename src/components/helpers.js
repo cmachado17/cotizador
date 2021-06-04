@@ -4,19 +4,13 @@ export const diferenciaYear = (year) => {
 
 export const agregadoMarca = (marca) => {
   let incremento;
-  switch (marca) {
-    case ("Fiat", "Chevrolet"):
-      incremento = 1.1;
-      break;
-    case "Ford":
-      incremento = 1.25;
-      break;
-    case "BMW":
-      incremento = 1.4;
-      break;
-    default:
-      alert("Error al calcular la cotizacion");
-      break;
+
+  if (marca === "Fiat" || marca === "Chevrolet") {
+    incremento = 1.1;
+  } else if (marca === "Ford") {
+    incremento = 1.25;
+  } else {
+    incremento = 1.4;
   }
 
   return incremento;
